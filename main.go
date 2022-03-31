@@ -2,14 +2,13 @@ package main
 
 import "fmt"
 
-func main() {
-	var titular string = "Gabriel"
-	var numeroAgencia int = 001
-	var numeroConta int = 987654
-	var saldo float64 = 1000.40
+type ContaCorrente struct {
+	titular       string
+	numeroAgencia int
+	numeroConta   int
+	saldo         float64
+}
 
-	fmt.Println("Olá, ", titular)
-	fmt.Println("Agência: ", numeroAgencia)
-	fmt.Println("Conta: ", numeroConta)
-	fmt.Println("Saldo: ", saldo)
+func main() {
+	fmt.Println(ContaCorrente{"Gabriel", 123, 456, 1000.00})
 }
