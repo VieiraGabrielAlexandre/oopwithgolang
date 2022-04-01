@@ -1,39 +1,23 @@
 package main
 
-import "fmt"
-
-type ContaCorrente struct {
-	titular       string
-	numeroAgencia int
-	numeroConta   int
-	saldo         float64
-}
+import (
+	"fmt"
+	c "gooop/contas"
+)
 
 func main() {
-	contaGabriel := ContaCorrente{"Gabriel", 123, 456, 1000.00}
+	contaGabriel := c.ContaCorrente{Titular: "Gabriel", NumeroAgencia: 123, NumeroConta: 456, Saldo: 1000.00}
+	contaDaSilvia := c.ContaCorrente{Titular: "Silvia", Saldo: 300}
 
 	//fmt.Println(contaGabriel.Sacar(800.00))
-	fmt.Println(contaGabriel.saldo)
+	fmt.Println(contaGabriel.Saldo)
 	status, valor := contaGabriel.Depositar(500.00)
 	fmt.Println(status, valor)
-	fmt.Println(contaGabriel.saldo)
-}
+	fmt.Println(contaGabriel.Saldo)
 
-func (c *ContaCorrente) Sacar(valorDoSaque float64) string {
-	podeSacar := valorDoSaque > 0 && valorDoSaque < c.saldo
-	if podeSacar {
-		c.saldo -= valorDoSaque
-		return "Saque realizado com sucesso"
-	} else {
-		return "saldo insuficiente"
-	}
-}
+	statusTransferencia := contaDaSilvia.Transferir(200, &contaGabriel)
+	fmt.Println(statusTransferencia)
+	fmt.Println(contaDaSilvia.Saldo)
+	fmt.Println(contaGabriel.Saldo)
 
-func (c *ContaCorrente) Depositar(depositar float64) (string, float64) {
-	if depositar > 0 {
-		c.saldo += depositar
-		return "Deposito realizado com sucesso", c.saldo
-	} else {
-		return "Deposito não realizado", c.saldo
-	}
 }
