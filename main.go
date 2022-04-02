@@ -2,22 +2,27 @@ package main
 
 import (
 	"fmt"
-	c "gooop/contas"
+	"gooop/contas"
 )
 
+func PagarBoleto(conta verificarConta, valorBoleto float64) {
+	conta.Sacar(valorBoleto)
+}
+
+type verificarConta interface {
+	Sacar(valor float64) string
+}
+
 func main() {
-	contaGabriel := c.ContaCorrente{Titular: "Gabriel", NumeroAgencia: 123, NumeroConta: 456, Saldo: 1000.00}
-	contaDaSilvia := c.ContaCorrente{Titular: "Silvia", Saldo: 300}
+	contaGabriel := contas.ContaPoupanca{}
+	contaGabriel.Depositar(100)
 
-	//fmt.Println(contaGabriel.Sacar(800.00))
-	fmt.Println(contaGabriel.Saldo)
-	status, valor := contaGabriel.Depositar(500.00)
-	fmt.Println(status, valor)
-	fmt.Println(contaGabriel.Saldo)
+	contaJuliana := contas.ContaCorrente{}
+	contaJuliana.Depositar(150)
 
-	statusTransferencia := contaDaSilvia.Transferir(200, &contaGabriel)
-	fmt.Println(statusTransferencia)
-	fmt.Println(contaDaSilvia.Saldo)
-	fmt.Println(contaGabriel.Saldo)
+	PagarBoleto(&contaGabriel, 50)
+	PagarBoleto(&contaJuliana, 50)
 
+	fmt.Println(contaGabriel.ObterSaldo())
+	fmt.Println(contaJuliana.ObterSaldo())
 }
